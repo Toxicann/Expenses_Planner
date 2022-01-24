@@ -35,10 +35,23 @@ class MyHomePage extends StatelessWidget {
                 child: Text("Chart!"),
                 elevation: 5,
               ),
-              Card(
-                child: Text("Transactions here"),
-                elevation: 5,
-              ),
+              Column(
+                children: transactions.map((e) {
+                  return Card(
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text(e.title),
+                            Text(e.date.toString()),
+                          ],
+                        ),
+                        Text(e.amount.toString())
+                      ],
+                    ),
+                  );
+                }).toList(),
+              )
             ],
           ),
         ));
