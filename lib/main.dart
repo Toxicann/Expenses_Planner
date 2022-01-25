@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import './transactions.dart';
+import './widgets/user_transaction.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
@@ -18,78 +19,28 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  List<Transactions> transactions = [
-    Transactions(id: 1, title: 'Bag', amount: 69.69, date: DateTime.now()),
-    Transactions(id: 2, title: 'Jeans', amount: 420.50, date: DateTime.now())
-  ];
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter App'),
+      appBar: AppBar(
+        title: const Text('Flutter App'),
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const <Widget>[
+            Card(
+              child: Text("Chart!"),
+              elevation: 5,
+            ),
+            UserTransaction()
+          ],
         ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Card(
-                child: Text("Chart!"),
-                elevation: 5,
-              ),
-              Column(
-                children: transactions.map(
-                  (e) {
-                    return Card(
-                      elevation: 3,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2.0,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            child: Text(
-                              '\$ ${e.amount}',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e.title,
-                                style: const TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                DateFormat.yMMMMd().format(e.date),
-                                // e.date.toString(),
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ).toList(),
-              )
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
