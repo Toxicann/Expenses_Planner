@@ -1,6 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import './transactions.dart';
 
 void main() {
@@ -27,15 +27,15 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Flutter App'),
+          title: const Text('Flutter App'),
         ),
-        body: Container(
+        body: SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Card(
+              const Card(
                 child: Text("Chart!"),
                 elevation: 5,
               ),
@@ -43,41 +43,44 @@ class MyHomePage extends StatelessWidget {
                 children: transactions.map(
                   (e) {
                     return Card(
+                      elevation: 3,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                e.title,
-                                style: TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                e.date.toString(),
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          ),
                           Container(
-                            margin: EdgeInsets.all(10.0),
-                            padding: EdgeInsets.all(5.0),
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(5.0),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                width: 1.0,
+                                width: 2.0,
                                 color: Colors.blue,
                               ),
                             ),
                             child: Text(
-                              e.amount.toString(),
-                              style: TextStyle(
+                              '\$ ${e.amount}',
+                              style: const TextStyle(
                                 fontSize: 20,
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                e.title,
+                                style: const TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                DateFormat.yMMMMd().format(e.date),
+                                // e.date.toString(),
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                            ],
                           )
                         ],
                       ),
