@@ -4,8 +4,8 @@ class NewTransaction extends StatelessWidget {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
-  final newTransaction;
-  NewTransaction(this.newTransaction);
+  final Function addTx;
+  NewTransaction(this.addTx);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,10 @@ class NewTransaction extends StatelessWidget {
                 label: Text('Amount'),
               ),
               controller: amountController,
+              keyboardType: TextInputType.number,
             ),
             TextButton(
-              onPressed: () => newTransaction(
+              onPressed: () => addTx(
                 titleController.text,
                 double.parse(amountController.text),
               ),

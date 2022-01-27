@@ -25,6 +25,16 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: const <Widget>[
+          // FloatingActionButton(
+          //   onPressed: null,
+          //   child: Icon(Icons.add),
+          // ),
+          IconButton(
+            onPressed: null,
+            icon: Icon(Icons.add),
+          )
+        ],
         title: const Text('Flutter App'),
       ),
       body: SizedBox(
@@ -40,6 +50,11 @@ class MyHomePage extends StatelessWidget {
             UserTransaction()
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: const FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.add),
       ),
     );
   }
