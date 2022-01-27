@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './widgets/user_transaction.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
+import '../models/transactions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,27 +14,66 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  void _showAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bctx) {
+          return NewTransaction(_addNewTransactions);
+        });
+  }
+
+  final List<Transactions> _userTransactions = [
+    Transactions(
+      id: '1',
+      title: 'Bag',
+      amount: 69.69,
+      date: DateTime.now(),
+    ),
+    Transactions(
+      id: '2',
+      title: 'Jeans',
+      amount: 420.50,
+      date: DateTime.now(),
+    )
+  ];
+
+  void _addNewTransactions(String txTitle, double txAmount) {
+    final tx = Transactions(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _userTransactions.add(tx);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const <Widget>[
-          // FloatingActionButton(
-          //   onPressed: null,
-          //   child: Icon(Icons.add),
-          // ),
+        actions: <Widget>[
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.add),
+            onPressed: () => _showAddNewTransaction(context),
+            icon: const Icon(Icons.add),
+            iconSize: 30,
           )
         ],
         title: const Text('Flutter App'),
@@ -42,19 +83,19 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const <Widget>[
-            Card(
+          children: <Widget>[
+            const Card(
               child: Text("Chart!"),
               elevation: 5,
             ),
-            UserTransaction()
+            TransactionList(_userTransactions)
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: const FloatingActionButton(
-        onPressed: null,
-        child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddNewTransaction(context),
+        child: const Icon(Icons.add),
       ),
     );
   }
