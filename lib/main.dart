@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expenses Tracker',
       theme: ThemeData(
-        fontFamily: 'IndieFlower',
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(primary: Colors.deepPurple, secondary: Colors.amber),
         appBarTheme: const AppBarTheme(
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               bodyText2: const TextStyle(
-                fontFamily: 'IndieFlower',
+                fontFamily: 'SourceCodePro',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
