@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import '../models/transactions.dart';
@@ -13,10 +14,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: MyHomePage(),
+      title: 'Expenses Tracker',
+      theme: ThemeData(
+        fontFamily: 'IndieFlower',
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(primary: Colors.deepPurple, secondary: Colors.amber),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'PoiretOne',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        textTheme: ThemeData.light().textTheme.copyWith(
+              bodyText1: const TextStyle(
+                fontFamily: 'PoiretOne',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              bodyText2: const TextStyle(
+                fontFamily: 'IndieFlower',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              headline1: const TextStyle(
+                fontFamily: 'PoiretOne',
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              subtitle1: const TextStyle(
+                fontFamily: 'PoiretOne',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
@@ -37,20 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  final List<Transactions> _userTransactions = [
-    Transactions(
-      id: '1',
-      title: 'Bag',
-      amount: 69.69,
-      date: DateTime.now(),
-    ),
-    Transactions(
-      id: '2',
-      title: 'Jeans',
-      amount: 420.50,
-      date: DateTime.now(),
-    )
-  ];
+  final List<Transactions> _userTransactions = [];
+
+  List<Transactions> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransactions(String txTitle, double txAmount) {
     final tx = Transactions(
@@ -76,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
             iconSize: 30,
           )
         ],
-        title: const Text('Flutter App'),
+        title: const Text('Expenses Tracker'),
       ),
       body: SizedBox(
         width: double.infinity,
@@ -84,11 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const Card(
-              child: Text("Chart!"),
-              elevation: 5,
-            ),
-            TransactionList(_userTransactions)
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions),
           ],
         ),
       ),
