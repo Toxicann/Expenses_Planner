@@ -8,9 +8,9 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.all(7),
       height: 500,
-      width: 350,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -33,20 +33,26 @@ class TransactionList extends StatelessWidget {
                 return Card(
                   elevation: 4,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 2.0,
-                            color: Theme.of(context).primaryColor,
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2.0,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          '\$ ${(transactions[index].amount).toStringAsFixed(2)}',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              '\$ ${(transactions[index].amount).toStringAsFixed(2)}',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -64,6 +70,9 @@ class TransactionList extends StatelessWidget {
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        width: 8,
                       )
                     ],
                   ),
