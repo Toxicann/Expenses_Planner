@@ -29,29 +29,38 @@ class ChartBar extends StatelessWidget {
               height: 80,
               width: 10,
               decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2.0,
-                    color: Colors.blueGrey,
-                  ),
-                  borderRadius: BorderRadius.circular(5)),
+                border: Border.all(
+                  width: 2.0,
+                  color: Colors.blueGrey,
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
             Container(
               height: spendingPercTotal * 80,
               width: 7,
               decoration: BoxDecoration(
+                color: Colors.purple,
+                border: Border.all(
+                  width: 2.0,
                   color: Colors.purple,
-                  border: Border.all(
-                    width: 2.0,
-                    color: Colors.purple,
-                  ),
-                  borderRadius: BorderRadius.circular(4)),
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
           ],
         ),
         const SizedBox(
           height: 5,
         ),
-        FittedBox(child: Text(spendingAmount.toStringAsFixed(0))),
+        SizedBox(
+          height: 25,
+          child: FittedBox(
+            child: Text(
+              spendingAmount.toStringAsFixed(0),
+            ),
+          ),
+        ),
       ],
     );
   }

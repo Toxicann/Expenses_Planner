@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expenses Tracker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(primary: Colors.deepPurple, secondary: Colors.amber),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.deepPurple,
+          secondary: Colors.amber,
+        ),
+        primarySwatch: Colors.deepPurple,
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'PoiretOne',
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.black,
               ),
               subtitle1: const TextStyle(
-                fontFamily: 'PoiretOne',
+                fontFamily: 'SourceCodePro',
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -80,16 +83,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransactions(String txTitle, double txAmount) {
+  void _addNewTransactions(String txTitle, double txAmount, DateTime txDate) {
     final tx = Transactions(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: txDate,
     );
 
     setState(() {
       _userTransactions.add(tx);
+    });
+  }
+
+  void _deleteTransactions(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -113,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransactions),
           ],
         ),
       ),

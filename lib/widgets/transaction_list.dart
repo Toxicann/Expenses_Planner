@@ -4,12 +4,14 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transactions> transactions;
-  const TransactionList(this.transactions, {Key? key}) : super(key: key);
+  final Function deleteTx;
+  const TransactionList(this.transactions, this.deleteTx, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(7),
+      padding: const EdgeInsets.all(7),
       height: 500,
       child: transactions.isEmpty
           ? Column(
@@ -31,50 +33,36 @@ class TransactionList extends StatelessWidget {
               itemCount: transactions.length,
               itemBuilder: (context, index) {
                 return Card(
-                  elevation: 4,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        fit: FlexFit.tight,
-                        child: Container(
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2.0,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+                  elevation: 5,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
                             child: Text(
-                              '\$ ${(transactions[index].amount).toStringAsFixed(2)}',
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ),
-                          ),
-                        ),
+                                '\$${transactions[index].amount.toStringAsFixed(2)}')),
                       ),
-                      const SizedBox(
-                        width: 8,
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        deleteTx(transactions[index].id);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transactions[index].title,
-                            style: Theme.of(context).textTheme.headline1,
-                          ),
-                          Text(
-                            DateFormat.yMMMd().format(transactions[index].date),
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      )
-                    ],
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
               },

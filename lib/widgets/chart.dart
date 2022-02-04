@@ -26,7 +26,7 @@ class Chart extends StatelessWidget {
         'Day': DateFormat.E().format(weekDay),
         'Amount': totalAmt,
       };
-    });
+    }).reversed.toList();
   }
 
   double get totalSpendingAmount {
@@ -40,21 +40,24 @@ class Chart extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
       elevation: 8,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: groupedTransactions.map((e) {
-          return Flexible(
-            fit: FlexFit.tight,
-            child: ChartBar(
-              label: e['Day'],
-              spendingAmount: e['Amount'],
-              spendingPercTotal: totalSpendingAmount == 0.0
-                  ? 0.0
-                  : (e['Amount'] as double) /
-                      totalSpendingAmount, //its in fraction: if 100% then 1
-            ),
-          );
-        }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: groupedTransactions.map((e) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                label: e['Day'],
+                spendingAmount: e['Amount'],
+                spendingPercTotal: totalSpendingAmount == 0.0
+                    ? 0.0
+                    : (e['Amount'] as double) /
+                        totalSpendingAmount, //its in fraction: if 100% then 1
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
