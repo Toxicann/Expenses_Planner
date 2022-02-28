@@ -6,6 +6,10 @@ import './widgets/transaction_list.dart';
 import '../models/transactions.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]);
   runApp(const MyApp());
 }
 
@@ -102,28 +106,76 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _showchart = false;
+
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final appBar = AppBar(
+      actions: <Widget>[
+        IconButton(
+          onPressed: () => _showAddNewTransaction(context),
+          icon: const Icon(Icons.add),
+          iconSize: 30,
+        )
+      ],
+      title: const Text('Expenses Tracker'),
+    );
+    final txList = SizedBox(
+      child: TransactionList(_userTransactions, _deleteTransactions),
+      height: (mediaQuery.size.height -
+              mediaQuery.padding.top -
+              appBar.preferredSize.height -
+              mediaQuery.padding.bottom) *
+          0.7,
+    );
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _showAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-            iconSize: 30,
-          )
-        ],
-        title: const Text('Expenses Tracker'),
-      ),
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions, _deleteTransactions),
-          ],
+      appBar: appBar,
+      body: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              if (isLandscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Show Chart"),
+                    Switch.adaptive(
+                        value: _showchart,
+                        onChanged: (val) {
+                          setState(() {
+                            _showchart = val;
+                          });
+                        })
+                  ],
+                ),
+              if (!isLandscape)
+                SizedBox(
+                  child: Chart(_recentTransactions),
+                  height: (mediaQuery.size.height -
+                          mediaQuery.padding.top -
+                          appBar.preferredSize.height -
+                          mediaQuery.padding.bottom) *
+                      0.3,
+                ),
+              if (!isLandscape) txList,
+              if (isLandscape)
+                _showchart
+                    ? SizedBox(
+                        child: Chart(_recentTransactions),
+                        height: (mediaQuery.size.height -
+                                mediaQuery.padding.top -
+                                appBar.preferredSize.height -
+                                mediaQuery.padding.bottom) *
+                            0.6,
+                      )
+                    : txList
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

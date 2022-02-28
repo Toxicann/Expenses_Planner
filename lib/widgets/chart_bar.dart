@@ -16,52 +16,61 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(label),
-        const SizedBox(
-          height: 5,
-        ),
-        Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            Container(
-              height: 80,
-              width: 10,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2.0,
-                  color: Colors.blueGrey,
-                ),
-                borderRadius: BorderRadius.circular(5),
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: constraints.maxHeight * 0.15,
+              child: FittedBox(
+                child: Text(label),
               ),
             ),
-            Container(
-              height: spendingPercTotal * 80,
-              width: 7,
-              decoration: BoxDecoration(
-                color: Colors.purple,
-                border: Border.all(
-                  width: 2.0,
-                  color: Colors.purple,
+            SizedBox(
+              height: constraints.maxHeight * 0.05,
+            ),
+            Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  width: 10,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.blueGrey,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(4),
+                Container(
+                  height: spendingPercTotal * 80,
+                  width: 7,
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    border: Border.all(
+                      width: 2.0,
+                      color: Colors.purple,
+                    ),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: constraints.maxHeight * 0.05,
+            ),
+            SizedBox(
+              height: constraints.maxHeight * 0.15,
+              child: FittedBox(
+                child: Text(
+                  spendingAmount.toStringAsFixed(0),
+                ),
               ),
             ),
           ],
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        SizedBox(
-          height: 25,
-          child: FittedBox(
-            child: Text(
-              spendingAmount.toStringAsFixed(0),
-            ),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

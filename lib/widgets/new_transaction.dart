@@ -49,57 +49,66 @@ class _NewTransactionState extends State<NewTransaction> {
     return Container(
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.symmetric(vertical: 5),
-      child: Card(
-        elevation: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                label: Text('Title'),
-              ),
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                label: Text('Amount'),
-              ),
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Text(
-                    _selectedDate == null
-                        ? "No Date Chosen!"
-                        : DateFormat.yMd().format(_selectedDate!),
-                    style: Theme.of(context).textTheme.bodyText2,
+      child: SingleChildScrollView(
+        child: Card(
+          elevation: 4,
+          child: Container(
+            padding: EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    label: Text('Title'),
                   ),
-                  TextButton(
-                    onPressed: _dateSelector,
-                    child: const Text(
-                      "Choose Date!",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: ElevatedButton(
-                onPressed: _submitData,
-                child: const Text(
-                  'Add Transaction',
+                  controller: _titleController,
+                  onSubmitted: (_) => _submitData(),
                 ),
-              ),
+                TextField(
+                  decoration: const InputDecoration(
+                    label: Text('Amount'),
+                  ),
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (_) => _submitData(),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Text(
+                        _selectedDate == null
+                            ? "No Date Chosen!"
+                            : DateFormat.yMd().format(_selectedDate!),
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      TextButton(
+                        onPressed: _dateSelector,
+                        child: const Text(
+                          "Choose Date!",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 19),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ElevatedButton(
+                    onPressed: _submitData,
+                    child: const Text(
+                      'Add Transaction',
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
